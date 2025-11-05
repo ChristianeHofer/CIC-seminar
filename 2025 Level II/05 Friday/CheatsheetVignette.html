@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Carolin Schaaff" />
+
+
+<title>Cheatsheet (Vignette)</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Cheatsheet (Vignette)</h1>
+<h4 class="author">Carolin Schaaff</h4>
+
+
+
+<p>This cheatsheet provides an overview for quick seasonal adjustments
+in RStudio. It can be seen as a step-by-step guide providing the basic
+functions needed.<br /> <br /></p>
+<div id="first-step-before-the-seasonal-adjustment" class="section level2">
+<h2>First Step: Before the seasonal adjustment</h2>
+<p>Before the seasonal adjustment, the data that we want to analyze and
+adjust, needs to be loaded and prepared. <br /> <br /></p>
+<p>The dsa() functions requires daily data in the xts format.</p>
+<table>
+<caption>Functions for loading and preparing data</caption>
+<colgroup>
+<col width="46%" />
+<col width="53%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>read_excel(“WhereYourFileIs.xlsx”)</em></td>
+<td>Read xls and xlsx files <br /> <em>library(readxl)</em></td>
+</tr>
+<tr class="even">
+<td><em>xts(values, dates)</em></td>
+<td>Convert Object To And From Class xts <br />
+<em>library(xts)</em></td>
+</tr>
+<tr class="odd">
+<td><em>zoo::index(series)</em></td>
+<td>Extracting/Replacing the Index of Objects</td>
+</tr>
+</tbody>
+</table>
+<p><br /></p>
+<p>The next step is to have a look at the original series, to identify
+seasonal behaviour and other important characteristics of the
+series.<br /></p>
+<table>
+<colgroup>
+<col width="27%" />
+<col width="72%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>ts.plot(series)</em></td>
+<td>Plot time series <br /> (ts or xts format)</td>
+</tr>
+<tr class="even">
+<td><em>plot(series)</em></td>
+<td>Plot any format</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="second-step-specifications-of-seasonal-adjustment" class="section level2">
+<h2>Second Step: Specifications of seasonal adjustment</h2>
+<div id="calendar-regressors" class="section level3">
+<h3>Calendar regressors</h3>
+<p>The regressors used for the calendar adjustment need to be provided
+in two sets:</p>
+<ol style="list-style-type: decimal">
+<li>Regressors for the regarima model, with the same number of
+observations as the time series excluding February, 29.</li>
+<li>Same regressors for the forecast, again excluding February, 29. The
+number of observations needs to be equal to h (usually 365)</li>
+</ol>
+<p>Whether a calendar regressor is significant or not can be seen in the
+regression output (regarima).<br /> Further, one should think of a
+plausible economic explanation for the effect of a calendar
+regressor.</p>
+<table>
+<colgroup>
+<col width="34%" />
+<col width="65%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>start(series)</em></td>
+<td>Find out, when a series starts <br /> <em>library(stats)</em></td>
+</tr>
+<tr class="even">
+<td><em>end(series)</em></td>
+<td>Find out, when a series ends <br /> <em>library(stats)</em></td>
+</tr>
+<tr class="odd">
+<td><em>seq.Date(start, end,</em> <em>by = “days”)</em></td>
+<td>Generate sequences of dates <br /></td>
+</tr>
+<tr class="even">
+<td><em>holidays</em></td>
+<td>xts of all regressors used for daily time series <br />
+<em>library(dsa)</em></td>
+</tr>
+<tr class="odd">
+<td><em>holidays([, c(“GoodFriday”)])</em></td>
+<td>xts of Good Friday regressor <br /> <em>library(dsa)</em></td>
+</tr>
+<tr class="even">
+<td><em>multi_xts2ts(regressors)</em></td>
+<td>Change multiple xts to a multivariate ts <br />
+<em>library(dsa)</em></td>
+</tr>
+<tr class="odd">
+<td><em>lag(holidays$GoodFriday, -1)</em></td>
+<td>Lag a time series <br /></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="seasonal-and-calendar-adjustment-of-the-series" class="section level3">
+<h3>Seasonal and calendar adjustment of the series</h3>
+<p>The dsa-function has several arguments allowing for an individual
+specification of the seasonal adjustment, for a full overview see
+<em>?dsa</em> (in the console).</p>
+<table>
+<colgroup>
+<col width="37%" />
+<col width="62%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>dsa(series,</em> <br /> <em>log = TRUE,</em> <br /> <em>s.window1
+= 53,</em> <br /> <em>s.window2 = 53,</em> <br /> <em>s.window3 = 13,</em>
+<br /> <em>fourier_number = 24)</em></td>
+<td>Seasonally adjust daily time series<br /> <em>library(dsa)</em></td>
+</tr>
+</tbody>
+</table>
+<p><br /></p>
+<p>The <em>regressor</em> argument should be set to the determined
+calendar regressors and <em>forecast_regressors</em> to the determined
+forecast calendar regressors. <br /> <br /></p>
+<p>The order of the model can be determined automatically. The
+<em>s.window</em> option can be changed based on the SI-ratios from
+output().</p>
+</div>
+</div>
+<div id="step-3-plotting-the-results" class="section level2">
+<h2>Step 3: Plotting the results</h2>
+<p>Plotting the results can be very helpful for interpreting the
+results. For a first interpretation it can be useful to plot the
+seasonally adjusted series against the original series.<br /> <br /></p>
+<p>For more complex graphs it can be convenient to use the ggplot2
+package.</p>
+<table>
+<colgroup>
+<col width="46%" />
+<col width="53%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>plot(dsa_object)</em></td>
+<td>Create a plot of an object created <br /> by dsa()</td>
+</tr>
+<tr class="even">
+<td><em>xtsplot(dsa_object$sfac_result)</em></td>
+<td>Create a plot for a certain xts series<br />
+<em>library(dsa)</em></td>
+</tr>
+<tr class="odd">
+<td><em>merge(dsa_object$output$original,</em><br />
+<em>dsa_object$output$seas_adj)</em></td>
+<td>Merge two xts time series into one object<br /></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="step-4-creating-html-output" class="section level2">
+<h2>Step 4: Creating html output</h2>
+<table>
+<colgroup>
+<col width="22%" />
+<col width="77%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>output(result)</em></td>
+<td>Creating html output for dsa in a specific folder <br />
+<em>library(dsa)</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="example-1" class="section level2">
+<h2>Example 1</h2>
+<p>This example uses a simple, simulated series to illustrate the basic
+steps of daily seasonal adjustment.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="do">### Simulate a series</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">259</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>series <span class="ot">&lt;-</span> dsa<span class="sc">::</span><span class="fu">daily_sim</span>(<span class="at">n=</span><span class="dv">365</span><span class="sc">*</span><span class="dv">5</span><span class="sc">+</span><span class="dv">1</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>                         <span class="at">week_effect =</span> <span class="dv">3</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>                         <span class="at">month_effect =</span> <span class="fl">0.1</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>                         <span class="at">year_effect =</span> <span class="dv">10</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>                         <span class="at">year_cycles =</span> <span class="dv">1</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>add_calendar <span class="ot">&lt;-</span> tssim<span class="sc">::</span><span class="fu">sim_calendar</span>(<span class="at">n =</span> <span class="dv">365</span><span class="sc">*</span><span class="dv">5</span><span class="sc">+</span><span class="dv">1</span>, </span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>                                    <span class="at">freq =</span> <span class="dv">365</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>                                    <span class="at">which =</span> <span class="fu">c</span>(<span class="st">&quot;EasterMonday&quot;</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>                                              <span class="st">&quot;Pentecost&quot;</span>),</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>                                    <span class="at">effect_size =</span> <span class="dv">30</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>                                    <span class="at">start =</span> <span class="st">&quot;2005-01-01&quot;</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>                                    <span class="at">center =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>                                    </span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>series <span class="ot">&lt;-</span> series<span class="sc">$</span>original <span class="sc">*</span> add_calendar</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="fu">plot</span>(series)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p><br /> Per definition of the simulation, the series contains calendar
+effects. In order to include them in the regression, a variable
+containing all calendar regressors needs to be specified.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(dsa)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>AllHol1 <span class="ot">&lt;-</span> <span class="fu">merge</span>(holidays<span class="sc">$</span>Pentecost,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>                 holidays<span class="sc">$</span>EasterSunday,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>                 holidays<span class="sc">$</span>EasterMonday)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>AllHolUse1 <span class="ot">&lt;-</span> <span class="fu">multi_xts2ts</span>(AllHol1[<span class="st">&quot;2005/2009&quot;</span>])</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>AllHolForecast1 <span class="ot">&lt;-</span> <span class="fu">multi_xts2ts</span>(AllHol1[<span class="st">&quot;2010&quot;</span>], <span class="at">short=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><br /> Daily seasonal adjustment using the previously specified
+calendar regressors as well as dsa() default specifications.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>result1 <span class="ot">&lt;-</span> <span class="fu">dsa</span>(series,</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                   <span class="at">Log =</span> T,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                   <span class="at">s.window1 =</span> <span class="dv">13</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>                   <span class="at">s.window2 =</span> <span class="cn">NULL</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>                   <span class="at">s.window3 =</span> <span class="dv">13</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>                   <span class="at">fourier_number =</span> <span class="dv">1</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>                   <span class="at">model =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>                   <span class="at">regressor=</span>AllHolUse1, </span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>                   <span class="at">forecast_regressor =</span> AllHolForecast1)</span></code></pre></div>
+<p><br /> Plotting the results of the daily seasonal adjustment. Note
+that the results include a forecast.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">xtsplot</span>(result1<span class="sc">$</span>output[,<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>])</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p><br /> Check the fit of the model graphically:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">print</span>(result1<span class="sc">$</span>reg)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; Series: s1_ol </span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; Regression with ARIMA(0,1,1) errors </span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;           ma1  S1-365  C1-365  hol$Pentecost  hol$EasterSunday</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;       -0.4490  0.1690  0.1463         0.2858           -0.0046</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; s.e.   0.0157  0.0167  0.0167         0.0060            0.0062</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;       hol$EasterMonday</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;                 0.2623</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; s.e.            0.0062</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; sigma^2 = 0.000249:  log likelihood = 4982.75</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; AIC=-9951.49   AICc=-9951.43   BIC=-9912.93</span></span></code></pre></div>
+<p><br /> Of special interest are the coefficients and their standard
+errors. <br /> If <br />                    <em>|coefficient/s.e.| &gt;
+1.96</em>, <br /> then the regressor is significant at the 5%-level. Here
+the EasterSunday-regressor is not significant, while the other
+regressors are significant. Therefore, the EasterSunday-regressor should
+be removed from the model.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>AllHol <span class="ot">&lt;-</span> <span class="fu">merge</span>(holidays<span class="sc">$</span>Pentecost,</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>                holidays<span class="sc">$</span>EasterMonday)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>AllHolUse <span class="ot">&lt;-</span> <span class="fu">multi_xts2ts</span>(AllHol[<span class="st">&quot;2005/2009&quot;</span>])</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>AllHolForecast <span class="ot">&lt;-</span> <span class="fu">multi_xts2ts</span>(AllHol[<span class="st">&quot;2010&quot;</span>], <span class="at">short=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><br /> Re-run the daily seasonal adjustment</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">dsa</span>(series,</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                   <span class="at">Log =</span> T,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                   <span class="at">s.window1 =</span> <span class="dv">13</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>                   <span class="at">s.window2 =</span> <span class="cn">NULL</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>                   <span class="at">s.window3 =</span> <span class="dv">13</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>                   <span class="at">fourier_number =</span> <span class="dv">1</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>                   <span class="at">model =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>                   <span class="at">regressor=</span>AllHolUse, </span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>                   <span class="at">forecast_regressor =</span> AllHolForecast)</span></code></pre></div>
+<p><br /> Comparing the model fit to the first attempt:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>result<span class="sc">$</span>reg</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; Series: s1_ol </span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; Regression with ARIMA(0,1,1) errors </span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt;           ma1  S1-365  C1-365  hol$Pentecost  hol$EasterMonday</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt;       -0.4489  0.1688  0.1463         0.2858            0.2635</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; s.e.   0.0157  0.0167  0.0167         0.0060            0.0060</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; sigma^2 = 0.0002489:  log likelihood = 4982.48</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; AIC=-9952.96   AICc=-9952.91   BIC=-9919.9</span></span></code></pre></div>
+<p><br /> The calendar regressors remain significant and the fit of the
+model has improved by excluding the EasterMonday-regressor (result1: AIC
+= -9951.49 &gt; AIC = -9952.96 :result) <br /></p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
